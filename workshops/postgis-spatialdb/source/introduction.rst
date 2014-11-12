@@ -48,7 +48,7 @@ Because polygons can overlap, be contained in one another, and are arrayed in a 
 
 A bounding box is the minimum rectangle capable of containing any given feature. 
 
-.. image:: ../img/mbr.png
+.. image:: ./img/mbr.png
 
 Why bounding boxes? Because answering the question "is A inside B" is very computationally expensive in the case of polygons but very fast in the case of boxes. Indexes have to perform quickly. So instead of providing exact results, as b-trees do, spatial indexes provide approximate results. You might ask "what lines are inside this polygon" but the index can only efficiently answer the question "what lines have bounding boxes that are contained in this polygon's bounding box"? Even the most complex polygons and linestrings can be represented by a simple bounding box.
 
@@ -56,7 +56,7 @@ The actual spatial indexes implemented by various databases vary widely. The mos
 
 This is a picture of an R-tree index showing how each shape is proxied by a bounding box, and how the bounding boxes are built into a searchable tree structure.
 
-.. image:: ../img/rtree.jpg
+.. image:: ./img/rtree.jpg
 
 But if spatial indexes only return an approximation, what good are they? If the approximation was as far as we got, they wouldn't be much good at all. But fully functional spatial databases include more than indexes, they also include functions capable of exactly testing the relationships between geometries. 
 

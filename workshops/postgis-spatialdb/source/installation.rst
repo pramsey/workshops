@@ -43,11 +43,11 @@ Installing PostgreSQL
 
 Double-click the PostgreSQL installer file in the **software/** directory to start the process. Click "Next".
 
-.. image:: ../img/pgsql_install_01.png
+.. image:: ./img/pgsql_install_01.png
 
 Accept the default installation location. Click "Next".
 
-.. image:: ../img/pgsql_install_02.png
+.. image:: ./img/pgsql_install_02.png
 
 Accept the default data directory location. Click "Next".
 
@@ -55,7 +55,7 @@ Accept the default data directory location. Click "Next".
 
   In a production setting you will probably use a data location that is distinct from your software installation location, such as on a RAID device or high performance SAN.
   
-.. image:: ../img/pgsql_install_03.png
+.. image:: ./img/pgsql_install_03.png
  
 For the database super-user account password, enter "**postgres**".  
 
@@ -63,23 +63,23 @@ For the database super-user account password, enter "**postgres**".
 
   It is important to use "**postgres**" as the password because other elements of the workshop software expect it.  In a production setting, you would use a secure password.
   
-.. image:: ../img/pgsql_install_04.png
+.. image:: ./img/pgsql_install_04.png
 
 Accept the default server port number.
 
-.. image:: ../img/pgsql_install_05.png
+.. image:: ./img/pgsql_install_05.png
 
 Accept the default database cluster locale.
 
-.. image:: ../img/pgsql_install_06.png
+.. image:: ./img/pgsql_install_06.png
 
 And start off the installation process.
 
-.. image:: ../img/pgsql_install_07.png
+.. image:: ./img/pgsql_install_07.png
 
 Watch it work.
 
-.. image:: ../img/pgsql_install_08.png
+.. image:: ./img/pgsql_install_08.png
 
 And hopefully you reach the conclusion without trouble.
 
@@ -87,7 +87,7 @@ And hopefully you reach the conclusion without trouble.
 
   The PostGIS installation can be launched directly from the PostgreSQL installer, by opting to "Launch Stackbuilder at exit".
 
-.. image:: ../img/pgsql_install_09.png
+.. image:: ./img/pgsql_install_09.png
 
 Installing PostGIS
 ------------------
@@ -96,57 +96,57 @@ If you neglected to launch the Stackbuilder during the PostgreSQL install proces
 
 The Stackbuilder will first try to determine which PostgreSQL software you want to download add-ons for. The correct answer should be the PostgreSQL instance on port 5432. Select it and click "Next".
 
-.. image:: ../img/postgis_install_10.png
+.. image:: ./img/postgis_install_10.png
 
 Now navigate into the "Spatial Extensions" menu and opt to install the latest version of PostGIS that is available. Click "Next".
 
-.. image:: ../img/postgis_install_11.png
+.. image:: ./img/postgis_install_11.png
 
 Select a suitable mirror site to download from (one close to you) and click "Next".
 
-.. image:: ../img/postgis_install_12.png
+.. image:: ./img/postgis_install_12.png
 
 Accept the default download location. Click "Next".
 
-.. image:: ../img/postgis_install_13.png
+.. image:: ./img/postgis_install_13.png
 
 Stackbuilder will download the PostGIS package. When you click "Next", it will start the PostGIS install package.
 
-.. image:: ../img/postgis_install_14.png
+.. image:: ./img/postgis_install_14.png
 
 The PostGIS installer first displays the GNU GPL license for your acceptance. Click "I Agree".
 
-.. image:: ../img/postgis_install_15.png
+.. image:: ./img/postgis_install_15.png
 
 The PostGIS installer then asks which components to install. Ensure that both "PostGIS" and "Create spatial database" are checked. Click "Next".
 
-.. image:: ../img/postgis_install_16.png
+.. image:: ./img/postgis_install_16.png
 
 The PostGIS installer then figures out which PostgreSQL to install into. The default should be correct. Click "Next".
 
-.. image:: ../img/postgis_install_17.png
+.. image:: ./img/postgis_install_17.png
 
 The PostGIS installer then asks for your super-user password. It should be "postgres", as you entered back in the PostgreSQL installation phase. Enter it and click "Next".
 
-.. image:: ../img/postgis_install_18.png
+.. image:: ./img/postgis_install_18.png
 
 The PostGIS installer then asks for the name of the spatial database to create. This workshop will be using data from the City of Medford for examples, so our test database will be named "medford". Enter "medford" as the database name it and click "Next".
 
-.. image:: ../img/postgis_install_19.png
+.. image:: ./img/postgis_install_19.png
 
 .. note:: 
 
   It is possible that while installing the PostGIS software, you will encounter the error below. **Do not panic.** It just means that the libiconv DLL file already exists in your database, and the installer cannot over-write it. Just press the "Ignore" button to complete the installation.
 
-.. image:: ../img/postgis_install_20.png
+.. image:: ./img/postgis_install_20.png
 
 Hopefully the installation runs to completion and you see this.
 
-.. image:: ../img/postgis_install_21.png
+.. image:: ./img/postgis_install_21.png
 
 After the PostGIS installation completes, you'll exit back to the Stackbuilder, where you can click "Finish" to end the process.
 
-.. image:: ../img/postgis_install_22.png
+.. image:: ./img/postgis_install_22.png
 
 Installing the Medford Data
 ---------------------------
@@ -160,13 +160,13 @@ Rather than load the data directly from the original files (which are available 
 
 First, start up the "PgAdmin" graphical administration tool for PostgreSQL. You can find it in the PostgreSQL application folder in the Start Menu.
 
-.. image:: ../img/data_install_24.png
+.. image:: ./img/data_install_24.png
 
 Double click the "PostgreSQL 8.3" entry in the list of servers (the entry with the red "X" on it).
 
 You will be prompted for your database super-user password, and you can enter "postgres", since that's the value we chose back at the database installation step.
 
-.. image:: ../img/data_install_25.png
+.. image:: ./img/data_install_25.png
 
 Explore the database. You'll see a "medford" database, as well as a "postgres" database and a "template_postgis" database.  
 
@@ -174,15 +174,15 @@ The "template_postgis" database is a blank database with PostGIS already install
 
 To load the Medford data, right-click on the "medford" database and select the "Restore..." option.
 
-.. image:: ../img/data_install_26.png
+.. image:: ./img/data_install_26.png
 
 In the restore form, click on the "..." to and navigate to the **data/** folder in the workshop bundle. Select the "medford.backup" file. When you are ready, click "OK" to start the data loading process. It may take a few minutes to load all the data.
 
-.. image:: ../img/data_install_28.png
+.. image:: ./img/data_install_28.png
 
 Click "OK" when the process is complete.
 
-.. image:: ../img/data_install_30.png
+.. image:: ./img/data_install_30.png
 
 When the restore is done, you will find a new schema named "medford" in your database. If you open it up you will find a collection of tables inside.
 
@@ -190,7 +190,7 @@ When the restore is done, you will find a new schema named "medford" in your dat
 
   You may have to click the "refresh" button in PgAdmin (the circular arrows at top left) to refresh the database browser tree and see the new schema.
 
-.. image:: ../img/data_install_29.png
+.. image:: ./img/data_install_29.png
 
 Repeat the restore process to load the "geometry_columns.backup" file.
 
@@ -200,7 +200,7 @@ Repeat the restore process to load the "geometry_columns.backup" file.
 * *Click the **Only data** option.*
 * Press "OK" to start the restore.
 
-.. image:: ../img/data_install_35.png
+.. image:: ./img/data_install_35.png
 
 Repeat the restore process to load the "spatial_ref_sys.backup" file.
 
@@ -239,37 +239,37 @@ You have spatial data loaded into your database! But how you can you tell?
 
 You can browse the tables in the PgAdmin tool, and see the geometry values serialized as hexadecimal strings, but that is not very satisfying.
 
-.. image:: ../img/udig_view_18.png
+.. image:: ./img/udig_view_18.png
 
 For a look at the data on a map, install the "uDig" software from the workshop **software/** folder. uDig is a desktop GIS viewing application, and it can view data in PostGIS and Oracle tables. No support for SQL Server, currently, though that is forthcoming.
 
 Simply double-click the installer, accept all the defaults, and your install will be quickly complete.
 
-.. image:: ../img/udig_view_07.png
+.. image:: ./img/udig_view_07.png
 
 Fire up uDig, and open the workbench. In the "Layer" menu, select the "Add.." option.
 
-.. image:: ../img/udig_view_11.png
+.. image:: ./img/udig_view_11.png
 
 Choose PostGIS as the data source.
 
-.. image:: ../img/udig_view_12.png
+.. image:: ./img/udig_view_12.png
 
 Fill in the connection parameters. The host is "localhost", the username is "postgres", the password is "postgres". The database is "medford", and **make sure** to change the schema to "medford" to. Click "Next".
 
-.. image:: ../img/udig_view_14.png
+.. image:: ./img/udig_view_14.png
 
 Now select which tables you want to view, or, if you like, select all of them.
 
-.. image:: ../img/udig_view_15.png
+.. image:: ./img/udig_view_15.png
 
 There's a lot of data, when you load up all the tables at the same time!
 
-.. image:: ../img/udig_view_16.png
+.. image:: ./img/udig_view_16.png
 
 If you zoom in, though, you will see things begin to make sense. Explore the data a little and get a feel for what is in each table.
 
-.. image:: ../img/udig_view_17.png
+.. image:: ./img/udig_view_17.png
 
 Installing Tomcat
 -----------------
@@ -283,7 +283,7 @@ The Tomcat install for the workshop is not the default install you can `download
 
 To use Tomcat you will need a Java run-time installed first. You may already have one installed. You can check by opening up a terminal window (in Windows, choose "Run..." in the start menu, then type in "cmd") and running "java" at the command line. If you have Java installed, you will see some usage instructions. If you don't, you'll see an error message.
 
-.. image:: ../img/tomcat_install_18.png
+.. image:: ./img/tomcat_install_18.png
 
 .. note::
 
@@ -297,7 +297,7 @@ Unzip the "tomcat6-geoserver.zip" file included in the workshop software collect
 * Run "service.bat install" 
 * Run "net start Tomcat6"
 
-.. image:: ../img/tomcat_install_19.png
+.. image:: ./img/tomcat_install_19.png
 
 You should now have a running instance of Tomcat on your machine.
 
@@ -311,7 +311,7 @@ To test that Tomcat is now up and running, point your web browser at port 8080 o
   
 You should see the Tomcat web server welcome page.
 
-.. image:: ../img/tomcat_install_20.png
+.. image:: ./img/tomcat_install_20.png
 
 Uninstalling Tomcat
 -------------------
@@ -324,7 +324,7 @@ To remove Tomcat from your system, you need to stop the service and then remove 
 * Run "net stop Tomcat6"
 * Run "service.bat uninstall"
 
-.. image:: ../img/tomcat_install_21.png
+.. image:: ./img/tomcat_install_21.png
 
 Now it is safe to delete the Tomcat directory from your hard drive.
 
@@ -333,5 +333,5 @@ Uninstalling PostgreSQL / PostGIS
 
 To remove PostgreSQL from your system, open the "Add or Remove Programs" tool from the "Control Panel" of your system. Choose the "Remove" option for PostGIS, then PostgreSQL.
 
-.. image:: ../img/pgsql_install_22.png
+.. image:: ./img/pgsql_install_22.png
 

@@ -34,7 +34,7 @@ We will join together the zoning and tax lot tables to generate a report about p
 
 The interface still looks like the previous example. We can click, we can select a radius of calculation, and the result is put into an **iframe** below the map.
 
-.. image:: ../img/click-join1.png
+.. image:: ./img/click-join1.png
 
 We have changed our overlay layer from the tax lots and buildings to the zoning types, which also include a label from which you can read the zoning code. The codes seem a little cryptic at first, but some rules of thumb clarify them:
 
@@ -106,11 +106,11 @@ The only really new element here is the join clause. The join syntax is standard
   
 We wanted to join the tax lots to the zones, so why are we running **ST_Centroid()** on our tax lots? Because the boundaries of the tax lots and the zoning areas might not line up exactly. That means a test on containment of lots in zones might return too few results; or, a test on intersection of lots with zones might return too many results.
 
-.. image:: ../img/click-join2.png
+.. image:: ./img/click-join2.png
 
 By converting the tax lot polygons to point proxies, we can ensure that each lot falls within only one zoning area.
 
-.. image:: ../img/click-join3.png
+.. image:: ./img/click-join3.png
 
 So our join finds tax lots who centers are within zoning areas. That provides us access to the zoning information at the tax lot level, which is enough to create a summary including both valuation (tax lot attribute) and zone (zoning attribute).
 
@@ -135,5 +135,5 @@ The **group by** clause is what makes our table a summary "by zoning" rather tha
 
 The final result provides an answer that would not be available without spatial processing -- a valuation table organized by zoning category.
 
-.. image:: ../img/click-join4.png
+.. image:: ./img/click-join4.png
 

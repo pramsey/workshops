@@ -9,7 +9,7 @@ If you have installed the PostGIS database, the Medford data, and Tomcat, you sh
   
 The previous example was a fun bit of analysis, but it was lacking an important visual enhancement: what parcels were being used to compute the summary?  This example builds on the previous one by pulling geometries directly out of the database, and letting them be rendered on the client side.
 
-.. image:: ../img/click-union1.png
+.. image:: ./img/click-union1.png
 
 The interface is just like the last example, but with one drop-down added, which will cause the database to union the geometry results before returning them to the client.
 
@@ -34,15 +34,15 @@ The format we are using for transferring the vector features in this example is 
   
 The OpenLayers library can directly consume GeoJSON "feature collections" and draw them as a layer on the map. We are going to take advantage of this to build an even thinner architecture than before: for this example, our Javascript builds a SQL statement, which is passed to the JSP script, which runs the SQL, and then returns a GeoJSON feature collection to the browser for rendering.
 
-.. image:: ../img/click-union2.png
+.. image:: ./img/click-union2.png
 
 Turning on the "Union" option tells the spatial database to perform a union of all the polygons before turning them into GeoJSON and sending the back. The effect is to turn a result like this:
 
-.. image:: ../img/click-union3.png
+.. image:: ./img/click-union3.png
 
 Into a result like this:
 
-.. image:: ../img/click-union4.png
+.. image:: ./img/click-union4.png
 
 How does this all work? Well, the summary window at the bottom of the page is a clone of the last example, so we will ignore that element.
 

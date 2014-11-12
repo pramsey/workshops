@@ -48,15 +48,15 @@ The last criteria (standards support) is not actually critical, but can save you
 
 The overlay works by taking combining the unadorned base map tile from your map provider,
 
-.. image:: ../img/wms-base.png
+.. image:: ./img/wms-base.png
 
 with the transparent rendering of your features of interest from the rendering engine,
 
-.. image:: ../img/wms-tile.png
+.. image:: ./img/wms-tile.png
 
 to create the visual illusion of a single composed map.
 
-.. image:: ../img/wms-both.png
+.. image:: ./img/wms-both.png
 
 Our Rendering Engine
 --------------------
@@ -67,7 +67,7 @@ We are using GeoServer for rendering. You can explore the configuration of GeoSe
   
 To see the various layers in our database rendered into web clients, check the "Map Preview" area in the "Demo" page accessible from the front of the GeoServer interface.
 
-.. image:: ../img/geoserver-admin3.png
+.. image:: ./img/geoserver-admin3.png
 
 Our User Interface
 ------------------
@@ -116,7 +116,7 @@ Then we define the Javascript that configures our map. For all our examples in t
 
 The **initMap()** function actually adds two base layers, a street map and a satellite image layer. You can toggle between them here (and in all the subsequent examples) using the layer switcher hidden under the "+" sign at the top right edge of the map.
 
-.. image:: ../img/openlayers-switcher.png
+.. image:: ./img/openlayers-switcher.png
 
 The WMS creation comes after the map is set up. We create a new WMS layer, with a URL pointing at our local GeoServer and the layer "medford:buildings" we want rendered. Note that we set transparency on (to allow the overlay to work) and use a format (image/png) that support transparency.
 

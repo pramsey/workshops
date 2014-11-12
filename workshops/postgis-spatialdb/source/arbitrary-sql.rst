@@ -9,7 +9,7 @@ If you have installed the PostGIS database, the Medford data, and Tomcat, you sh
   
 In the last example, we showed features being drawn based on SQL passed through a script that output GeoJSON. Once you have a script like that, the next step is to simply hand it any old SQL you feel like, and that is what this example shows.
 
-.. image:: ../img/arbitrary-sql1.png
+.. image:: ./img/arbitrary-sql1.png
 
 Choosing a query from the drop-down list makes the SQL available for editing before it is submitted to the database for retrieval.
 
@@ -26,11 +26,11 @@ The first example just retrieves all the school points. Note that we transform t
     
 You can make the query more exciting by wrapping the **the_geom** term in an **ST_Buffer()** function to turn the points into larger circles. **ST_Buffer()** the points by 2500 feet. Whoa, big circles!
 
-.. image:: ../img/arbitrary-sql3.png
+.. image:: ./img/arbitrary-sql3.png
 
 Now, wrap the **ST_Buffer()** in an **ST_Union()**. All the overlapping portions are melted away.
 
-.. image:: ../img/arbitrary-sql4.png
+.. image:: ./img/arbitrary-sql4.png
 
 The second example spatially joins the school points to the buildings layer. How can we find school buildings? How about buildings that contain a school point.
 
@@ -80,7 +80,7 @@ The fourth example pulls linear features, streets, that are nearby to the school
 
 Again, you can buffer the streets to create hotdog shapes.
 
-.. image:: ../img/arbitrary-sql2.png
+.. image:: ./img/arbitrary-sql2.png
 
 The final example is fairly complex. It takes the school points, buffers them into circles, then intersects those circles with the tax lots, to create circular "tax lot cookies" (mmmMMMmmm).
 
@@ -109,5 +109,5 @@ The final example is fairly complex. It takes the school points, buffers them in
   
 In order to make it run a little faster, the calculation is further restricted by spatially joining to the wards and only doing the calculation in ward #3.
 
-.. image:: ../img/arbitrary-sql5.png
+.. image:: ./img/arbitrary-sql5.png
 

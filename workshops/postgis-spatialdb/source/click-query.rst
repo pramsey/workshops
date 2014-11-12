@@ -9,11 +9,11 @@ If you have installed the PostGIS database, the Medford data, and Tomcat, you sh
   
 For this example, we have added an extra WMS layer (the taxlots) to the overlay and set up some extra boxes in the page to hold the results of queries.
 
-.. image:: ../img/click-query2.png
+.. image:: ./img/click-query2.png
 
 This example is using our thin architecture: Javascript to form a query URL, that is parsed by a script into a SQL query, which is run and results fed back to the user interface. 
  
-.. image:: ../img/click-query1.png
+.. image:: ./img/click-query1.png
 
 The query result box in our web page is a simple **iframe** element, basically an embedded web panel. We could write fancy code to de-serialize our query results from XML into the web page, but for simplicity we are simply going to have our script return HTML, and stuff it into this **iframe**.
 

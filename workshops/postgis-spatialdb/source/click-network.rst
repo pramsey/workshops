@@ -9,7 +9,7 @@ If you have installed the PostGIS database, the Medford data, and Tomcat, you sh
   
 The GeoJSON script is like having direct access to the database from the web client, and using that access, we can do basically anything. This example uses direct database access to recursively walk through the Medford storm drain network: from a starting click, it keeps walking down stream until it runs out of connections.
 
-.. image:: ../img/click-network1.png
+.. image:: ./img/click-network1.png
 
 Once you click on a storm drain line, the process starts, and the walk is logged into the window below the map.
 

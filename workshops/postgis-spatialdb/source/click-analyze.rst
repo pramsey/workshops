@@ -61,7 +61,7 @@ We will use the tax lot information to generate a summary of property values wit
 
 The interface looks much like the previous example. We can click, we can select a radius of calculation, and the result is put into an **iframe** below the map.
 
-.. image:: ../img/click-analyze1.png
+.. image:: ./img/click-analyze1.png
 
 The Javascript bound to the **click** event is just like the previous example, except we are targeting a different JSP script and passing a radius instead of a table.
 
