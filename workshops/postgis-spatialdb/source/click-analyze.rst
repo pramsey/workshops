@@ -55,7 +55,7 @@ The **medford.taxlots** table has a rich set of attributes regarding the propert
   trssort    | character varying(5)   
   siteadd    | character varying(36)  
   taxlot     | integer                
-  the_geom   | geometry               
+  geom   | geometry               
 
 We will use the tax lot information to generate a summary of property values within a radius of a click point on the map. In particular, we will summarize the **impvalue** (improvement value), **landvalue** (land value), and **yearblt** (year built) while calculating and averaging a total value and an average lot area.
 
@@ -95,7 +95,7 @@ The script that handles the URL, again looks like the previous example, except f
 
   select 
     count(*) as "Number of Lots",
-    round(avg(st_area(the_geom))::numeric/43560, 1) || ' acres' as "Average Lot Area", 
+    round(avg(st_area(geom))::numeric/43560, 1) || ' acres' as "Average Lot Area", 
     '$' || avg(impvalue)::integer as "Average Improvement Value",
     '$' || avg(landvalue)::integer as "Average Land Value",
     '$' || avg(impvalue + landvalue)::integer as "Average Total Value", 
@@ -103,7 +103,7 @@ The script that handles the URL, again looks like the previous example, except f
   from medford.taxlots
   where
     st_dwithin(
-      the_geom,
+      geom,
       st_transform(
         st_setsrid(
           st_makepoint(${param.lon},${param.lat}),
@@ -132,7 +132,7 @@ Asking "what things are within distance D of this point" is a *very* common spat
   select *
   from medford.buildings
   where ST_Distance(
-          the_geom, 
+          geom, 
           ST_GeomFromText('POINT(4300137 244799)', 2270) 
         ) < 1000;
   
@@ -144,7 +144,7 @@ Databases get around these limitations by re-writing queries to use indexes. SQL
 
   select *
   from medford.buildings
-  where the_geom.STDistance( 
+  where geom.STDistance( 
           geometry::STGeomFromText('POINT(4300137 244799)', 2270) 
         ) < 1000;
 
@@ -156,7 +156,7 @@ Oracle and PostGIS both provide alternate functions that do use the spatial inde
   select *
   from medford.buildings
   where ST_DWithin(
-          the_geom, 
+          geom, 
           ST_GeomFromText('POINT(4300137 244799)', 2270), 
           1000
         );
@@ -182,7 +182,7 @@ The high performance Oracle form of the above query is:
     FROM TARGET medford.buildings
     WHERE 
       SDO_WITHIN_DISTANCE( 
-        medford.buildings.the_geom, 
+        medford.buildings.geom, 
         SDO_UTIL.TO_WKBGEOMETRY('POINT(4300137 244799)'), 
         'distance=1000'
       ) = 'TRUE';

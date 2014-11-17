@@ -12,7 +12,7 @@ by SQL Server, Oracle Spatial and PostGIS.
 Getting Started
 ---------------
 
-* This workshop uses a software/data bundle http://files.opengeo.org/workshopmaterials/spdb-005.zip
+* This workshop uses an example/data bundle http://files.opengeo.org/workshopmaterials/spdb-005.zip
 * Download the bundle and unzip it in a convenient location.
 
 Workshop Modules
@@ -58,11 +58,10 @@ Links to have on hand
 * GeoServer - http://geoserver.org 
 * OpenLayers - http://openlayers.org
 
-  - API docs - http://dev.openlayers.org/apidocs
-  - Examples - http://openlayers.org/dev/examples 
+  - API docs - http://openlayers.org/en/v3.0.0/apidoc/
+  - Examples - http://openlayers.org/en/v3.0.0/examples/
 
-* JSTL - http://java.sun.com/products/jsp/jstl/
+* PostGIS Documentation - http://postgis.net/documentation
 * Oracle Spatial Documentation - http://www.oracle.com/technology/documentation/spatial.html
 * SQL Server Spatial Documentation - http://msdn.microsoft.com/en-us/library/bb933790.aspx
-* PostGIS Documentation - http://postgis.net/documentation
 

@@ -19,12 +19,12 @@ The first example just retrieves all the school points. Note that we transform t
 
   select 
     st_asgeojson(
-      st_transform(the_geom,900913)
+      st_transform(geom,900913)
     ) 
   from 
     medford.schools
     
-You can make the query more exciting by wrapping the **the_geom** term in an **ST_Buffer()** function to turn the points into larger circles. **ST_Buffer()** the points by 2500 feet. Whoa, big circles!
+You can make the query more exciting by wrapping the **geom** term in an **ST_Buffer()** function to turn the points into larger circles. **ST_Buffer()** the points by 2500 feet. Whoa, big circles!
 
 .. image:: ./img/arbitrary-sql3.png
 
@@ -38,13 +38,13 @@ The second example spatially joins the school points to the buildings layer. How
 
   select 
     st_asgeojson(
-      st_transform(st_force_2d(buildings.the_geom),900913)
+      st_transform(st_force_2d(buildings.geom),900913)
     ) 
   from 
     medford.buildings buildings, 
     medford.schools schools
   where
-    st_contains(buildings.the_geom, schools.the_geom)
+    st_contains(buildings.geom, schools.geom)
 
 The call to **ST_Contains()** gives us all the buildings containing school points. Note the **ST_Force_2d()** call at the top -- that is needed because the buildings data is actually 3D! Unfortunately, OpenLayers only understands 2D GeoJSON, so if you feed it 3D features it fails to draw them. Fortunately, the database has the tools to reduce the dimensionality.
 
@@ -54,15 +54,15 @@ The third example is just like the second, except using tax lots.
 
   select 
     st_asgeojson(
-      st_transform(taxlots.the_geom,900913)
+      st_transform(taxlots.geom,900913)
     ) 
   from 
     medford.taxlots taxlots, 
     medford.schools schools 
   where 
-    st_contains(taxlots.the_geom,schools.the_geom)
+    st_contains(taxlots.geom,schools.geom)
 
-Try wrapping the geometry in an **ST_Centroid()** to turn the lots back into points.  Or, move the geometries 500 feet to the right, by using **ST_Translate(the_geom,500,0)**.
+Try wrapping the geometry in an **ST_Centroid()** to turn the lots back into points.  Or, move the geometries 500 feet to the right, by using **ST_Translate(geom,500,0)**.
 
 The fourth example pulls linear features, streets, that are nearby to the school points.
 
@@ -70,13 +70,13 @@ The fourth example pulls linear features, streets, that are nearby to the school
 
   select 
     st_asgeojson(
-      st_transform(streets.the_geom,900913)
+      st_transform(streets.geom,900913)
    ) 
    from 
     medford.streets streets, 
     medford.schools schools 
   where 
-    st_dwithin(schools.the_geom, streets.the_geom, 500) 
+    st_dwithin(schools.geom, streets.geom, 500) 
 
 Again, you can buffer the streets to create hotdog shapes.
 
@@ -90,8 +90,8 @@ The final example is fairly complex. It takes the school points, buffers them in
     st_asgeojson(
       st_transform(
         st_intersection(
-          taxlots.the_geom, 
-          st_buffer(schools.the_geom,500)
+          taxlots.geom, 
+          st_buffer(schools.geom,500)
         ),
         900913
       )
@@ -101,9 +101,9 @@ The final example is fairly complex. It takes the school points, buffers them in
     medford.taxlots taxlots, 
     medford.wards wards 
   where 
-    st_dwithin(schools.the_geom, taxlots.the_geom, 500) 
+    st_dwithin(schools.geom, taxlots.geom, 500) 
   and 
-    st_contains(wards.the_geom,schools.the_geom) 
+    st_contains(wards.geom,schools.geom) 
   and 
     wards.wards_id = 3
   

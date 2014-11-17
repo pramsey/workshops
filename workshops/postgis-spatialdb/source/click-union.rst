@@ -19,9 +19,9 @@ The format we are using for transferring the vector features in this example is 
 
 .. code-block:: sql
 
-  select st_asgeojson(the_geom) 
+  select st_asgeojson(geom) 
   from medford.streets 
-  where st_npoints(the_geom) < 6 
+  where st_npoints(geom) < 6 
   limit 1;
 
 ::
@@ -120,15 +120,15 @@ Our retrieve-and-draw function has been registered with the "click" event, and i
     var dounion = document.getElementById("dounion").value;
 
     // If we are unioning, change the SQL appropriately
-    var sql_geom = "st_transform(the_geom,900913)";
+    var sql_geom = "st_transform(geom,900913)";
     if(dounion > 0) {
-      sql_geom = "st_union(st_transform(the_geom,900913))";
+      sql_geom = "st_union(st_transform(geom,900913))";
     }
 
     // Build up the SQL query
     var sql =  "select st_asgeojson(" + sql_geom + ") ";
         sql += "from medford.taxlots ";
-        sql += "where st_dwithin(the_geom,st_transform(st_setsrid(";
+        sql += "where st_dwithin(geom,st_transform(st_setsrid(";
         sql += "st_makepoint(" + xy.lon + "," + xy.lat + ")";
         sql += ",900913),2270)," + radius + ")";
 
@@ -159,11 +159,11 @@ There are not a lot of moving parts here. At the top we extract the click point,
 
 .. code-block:: sql
 
-  select st_asgeojson(st_transform(the_geom,900913)) 
+  select st_asgeojson(st_transform(geom,900913)) 
   from medford.taxlots 
   where 
     st_dwithin(
-      the_geom,
+      geom,
       st_transform(
         st_setsrid(
           st_makepoint(-13676108, 5212594),
@@ -174,7 +174,7 @@ There are not a lot of moving parts here. At the top we extract the click point,
 
 Note the careful juggling of coordinate systems. 
 
-* We want Mercator (900913) outputs, so we wrap our output "the_geom" column in a call to **ST_Transform()**.
+* We want Mercator (900913) outputs, so we wrap our output "geom" column in a call to **ST_Transform()**.
 * Our map is generating click coordinates in Mercator, so we wrap those in a call to **ST_Transform()** to shift them from 900913 to 2270 (Stateplane Oregon South), which is coordinate system in which **ST_DWithin()** call takes place.
 
 And then the SQL is fired off to the JSP scripting layer, where this happens to it:
@@ -213,7 +213,7 @@ It looks more complex than it is, because JSON notation is a terse and visually 
 
 You can call the GeoJSON script directly with any legal SQL and see what it spits out. Here's an example query:
 
-  http://localhost:8080/spatialdbtips/04-sql-to-json.jsp?sql=select+st_asgeojson(the_geom,10),name,address,students+from+medford.schools
+  http://localhost:8080/spatialdbtips/04-sql-to-json.jsp?sql=select+st_asgeojson(geom,10),name,address,students+from+medford.schools
 
 .. note::
 
@@ -258,7 +258,7 @@ The Oracle SQL to generate GML outputs looks like this:
 
 .. code-block:: sql
 
-  SELECT TO_CHAR(SDO_UTIL.TO_GMLGEOMETRY(the_geom)) AS GmlGeom 
+  SELECT TO_CHAR(SDO_UTIL.TO_GMLGEOMETRY(geom)) AS GmlGeom 
   FROM medford.taxlots t 
   WHERE t.impvalue > 100000;
   
@@ -266,7 +266,7 @@ The SQL Server call to generate GML outputs looks like this:
 
 .. code-block:: sql
 
-  SELECT the_geom.StAsGML() 
+  SELECT geom.StAsGML() 
   FROM medford.taxlots t 
   WHERE t.impvalue > 100000;
   

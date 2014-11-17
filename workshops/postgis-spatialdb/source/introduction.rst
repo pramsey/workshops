@@ -49,6 +49,7 @@ Because polygons can overlap, be contained in one another, and are arrayed in a 
 A bounding box is the minimum rectangle capable of containing any given feature. 
 
 .. image:: ./img/mbr.png
+   :class: inline
 
 Why bounding boxes? Because answering the question "is A inside B" is very computationally expensive in the case of polygons but very fast in the case of boxes. Indexes have to perform quickly. So instead of providing exact results, as b-trees do, spatial indexes provide approximate results. You might ask "what lines are inside this polygon" but the index can only efficiently answer the question "what lines have bounding boxes that are contained in this polygon's bounding box"? Even the most complex polygons and linestrings can be represented by a simple bounding box.
 
@@ -57,6 +58,7 @@ The actual spatial indexes implemented by various databases vary widely. The mos
 This is a picture of an R-tree index showing how each shape is proxied by a bounding box, and how the bounding boxes are built into a searchable tree structure.
 
 .. image:: ./img/rtree.jpg
+   :class: inline
 
 But if spatial indexes only return an approximation, what good are they? If the approximation was as far as we got, they wouldn't be much good at all. But fully functional spatial databases include more than indexes, they also include functions capable of exactly testing the relationships between geometries. 
 
@@ -93,12 +95,12 @@ Real World Spatial Databases
 There are three spatial databases you might use with more-or-less equivalent functionality:
 
 * `Oracle RDBMS with Spatial or Locator <http://www.oracle.com/technology/products/spatial/index.html>`_
-* `SQL Server 2008 with Spatial <http://www.microsoft.com/sqlserver/2008/en/us/spatial-data.aspx>`_
+* `SQL Server 2014 with Spatial <http://msdn.microsoft.com/en-us/library/bb933790.aspx>`_
 * `PostgreSQL <http://postgresql.org>`_ with `PostGIS <http://postgis.net>`_
 
 In each case, we start with a capable relational database, and add a set of spatial types, functions, and indexes. We will briefly discuss the relative features of each, but first here are some less well-known options.
 
-* `IBM DB2 with Spatial Extender <http://www.ibm.com/software/data/spatial/>`_
+* `IBM DB2 with Spatial Extender <http://www.ibm.com/software/products/en/db2spaext/>`_
 * `IBM Informix with Spatial Blade <http://www.ibm.com/software/data/spatial/>`_
 
 The two options from IBM are both fully functional, but we won't be covering them since they are relatively rare. Both follow the :term:`OGC` :term:`SFSQL`.
@@ -118,7 +120,7 @@ The main drawback to ArcSDE is the complexity it adds, in licensing and manageme
 Oracle with Spatial or Locator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Oracle Spatial was originally an "enterprise only" option for Oracle, which sharply reduced the number of users who could deploy it, given the high cost of Oracle Enterprise Edition. However, at version 9i, Oracle split the spatial functionality into "Locator" and "Spatial", with Locator being the less-functional version available in all Oracle database products, including the `free Oracle XE database <http://www.oracle.com/technology/products/database/xe/index.html>`_.
+Oracle Spatial was originally an "enterprise only" option for Oracle, which sharply reduced the number of users who could deploy it, given the high cost of Oracle Enterprise Edition. However, at version 9i, Oracle split the spatial functionality into "Locator" and "Spatial", with Locator being the less-functional version available in all Oracle database products, including the `gratis Oracle Express database <http://www.oracle.com/technetwork/database/database-technologies/express-edition/overview/index.html>`_.
 
 Since 9i, Oracle has migrated most of the core :term:`OGC` spatial database functionality from Spatial to Locator, but a `few notable exceptions remain <http://www.spatialdbadvisor.com/oracle_spatial_tips_tricks/55/oracle-locator-vs-enterprise-licensing-the-sdogeom-package>`_, in the category Oracle calls "geoprocessing".
 
@@ -147,9 +149,9 @@ In terms of raw number of features, Oracle Spatial is clearly in the lead in the
 
 The Oracle Spatial functionality is a descendant of an earlier Oracle add-on called the "Spatial Data Option" (SDO), and the SDO moniker lives in lots of places in Oracle. The spatial type is called an ``SDO_GEOMETRY``, the functions live in the ``SDO_GEOM`` package, and so on. The SDO add-on actually pre-dates the :term:`OGC` :term:`SFSQL` specification slightly, and as a result most of the common functions in Oracle Spatial do not follow the :term:`OGC` function naming guidelines.  Of all the syntaxes, the Oracle one is the least standard, and that can make transposing examples to and from Oracle a little difficult at times. However, the basic types and semantics of operations remain the same.
 
-You can get Oracle XE as a `free download from Oracle <http://www.oracle.com/technology/products/database/xe/index.html>`_. 
+You can get Oracle Express as a `free download from Oracle <http://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/index.html>`_. 
 
-SQL Server 2008 with Spatial
+SQL Server 2014 with Spatial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Microsoft is the most recent entrant into the spatial database game, with the 2008 release of SQL Server including spatial types, functions and indexes. Unlike Oracle, Microsoft is including their full spatial functionality in every edition of SQL Server, even the free Express edition.
@@ -162,8 +164,8 @@ For example, where a PostGIS query might look like this:
   
   SELECT * FROM the_table 
   WHERE ST_Intersects(
-          the_geom, 
-          ST_GeomFromText('POINT(0 0)',0)
+          geom, 
+          ST_GeomFromText('POINT(0 0)', 0)
         );
 
 The equivalent SQL Server query would be:
@@ -171,8 +173,8 @@ The equivalent SQL Server query would be:
 .. code-block:: sql
 
   SELECT * FROM the_table 
-  WHERE the_geom.STIntersects(
-          geometry::STGeomFromText('POINT(0 0)',0)
+  WHERE geom.STIntersects(
+          geometry::STGeomFromText('POINT(0 0)', 0)
         );
 
 Note also that Microsoft opted to not use the underscore "_" character to separate the ST prefix from the rest of the method name.
@@ -181,9 +183,9 @@ The primary limitation of SQL Server is the platform limitation -- you can only 
 
 A particular limitation of SQL Server Spatial is that it does not include support core coordinate reference system transformation. That may sound like an obscure piece of functionality, but we'll see later on that once you start working with other people's data, it is quite common to use coordinate reference system transforms.
 
-The SQL Server spatial index also differs substantially from that used by Oracle or PostGIS. Rather than an R-tree (used by PostGIS and Oracle), SQL Server uses a `multi-level grid scheme <http://technet.microsoft.com/en-us/library/bb964712.aspx>`_. From a database developer perspective, this has allowed the Microsoft spatial team to integrate with SQL Server without requiring a whole new index method, since the grid can be indexed using standard b-trees.  In general, grid index schemes have been popular in the past, and the main drawback for users is the need to occasionally re-tune the grid-size and grid-levels for data with heterogeneously sized objects (both very large and very small objects).
+The SQL Server spatial index also differs substantially from that used by Oracle or PostGIS. Rather than an R-tree (used by PostGIS and Oracle), SQL Server uses a `multi-level grid scheme <http://technet.microsoft.com/en-us/library/bb964712(v=sql.105).aspx>`_. From a database developer perspective, this has allowed the Microsoft spatial team to integrate with SQL Server without requiring a whole new index method, since the grid can be indexed using standard b-trees.  In general, grid index schemes have been popular in the past, and the main drawback for users is the need to occasionally re-tune the grid-size and grid-levels for data with heterogeneously sized objects (both very large and very small objects).
 
-SQL Server Express is included with Visual Studio, but you don't need to buy Visual Studio to get it. Simply download the SQL Server Evaluation version from Microsoft, then during installation select the free Express installation option.  You can get the `SQL Server Evaluation <http://www.microsoft.com/sqlserver/2008/en/us/trial-software.aspx>`_ from Microsoft, and MSDN members should already have access to it.
+SQL Server Express is included with Visual Studio, but you don't need to buy Visual Studio to get it. Simply download the SQL Server Evaluation version from Microsoft, then during installation select the free Express installation option.  You can get the `SQL Server Evaluation <http://www.microsoft.com/en-ca/download/details.aspx?id=29066>`_ from Microsoft, and MSDN members should already have access to it.
 
 PostgreSQL with PostGIS
 ^^^^^^^^^^^^^^^^^^^^^^^

@@ -335,3 +335,9 @@ To remove PostgreSQL from your system, open the "Add or Remove Programs" tool fr
 
 .. image:: ./img/pgsql_install_22.png
 
+
+
+
+
+_OpenGeo Suite: http://boundlessgeo.com/solutions/opengeo-suite/
+_Suite installation instructions: http://suite.opengeo.org/opengeo-docs/installation/index.html

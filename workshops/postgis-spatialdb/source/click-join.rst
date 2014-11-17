@@ -28,7 +28,7 @@ The **medford.taxlots** table has lots of information, but lacks a "zoning" colu
   shape_le_1 | numeric                
   shape_area | numeric                
   hectares   | numeric                
-  the_geom   | geometry               
+  geom   | geometry               
 
 We will join together the zoning and tax lot tables to generate a report about property values for each zoning category.
 
@@ -73,16 +73,16 @@ The SQL query is where all the work happens.
 
   select 
     count(*) as num_lots,
-    round(sum(st_area(taxlot.the_geom))::numeric/43560,1) || ' acres' as total_lot_area, 
+    round(sum(st_area(taxlot.geom))::numeric/43560,1) || ' acres' as total_lot_area, 
     zone.zoning as zoning,
     '$' || sum(taxlot.landvalue)::integer as total_land_value,
-    '$' || (sum(taxlot.landvalue) / sum(st_area(taxlot.the_geom)))::integer || ' / sqft' as value_per_ft
+    '$' || (sum(taxlot.landvalue) / sum(st_area(taxlot.geom)))::integer || ' / sqft' as value_per_ft
   from 
     medford.taxlots taxlot join medford.zoning zone 
-    on (st_contains(zone.the_geom, st_centroid(taxlot.the_geom)))
+    on (st_contains(zone.geom, st_centroid(taxlot.geom)))
   where
     st_dwithin(
-      taxlot.the_geom,
+      taxlot.geom,
       st_transform(
         st_setsrid(
           st_makepoint(${param.lon},${param.lat}),
@@ -101,7 +101,7 @@ The only really new element here is the join clause. The join syntax is standard
   
   medford.taxlots taxlot join medford.zoning zone 
   on (
-    st_contains(zone.the_geom, st_centroid(taxlot.the_geom))
+    st_contains(zone.geom, st_centroid(taxlot.geom))
     )
   
 We wanted to join the tax lots to the zones, so why are we running **ST_Centroid()** on our tax lots? Because the boundaries of the tax lots and the zoning areas might not line up exactly. That means a test on containment of lots in zones might return too few results; or, a test on intersection of lots with zones might return too many results.
@@ -120,7 +120,7 @@ The usual **ST_DWithin()** clause is in the WHERE block of the SQL, to restrict 
 
   where
     st_dwithin(
-      taxlot.the_geom,
+      taxlot.geom,
       st_transform(
         st_setsrid(
           st_makepoint(${param.lon},${param.lat}),

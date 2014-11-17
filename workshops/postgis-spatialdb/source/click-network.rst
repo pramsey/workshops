@@ -22,9 +22,9 @@ This example uses the same "click and query" logic from previous examples to fig
     // Get the mercator coordinates from the viewport
     var xy = map.getLonLatFromViewPortPx(e.xy);
     // Find the starting node with a  distance-from-click test.
-    var sql  = "select st_asgeojson(the_geom), node_fm ";
+    var sql  = "select st_asgeojson(geom), node_fm ";
         sql += "from medford.storm_drains ";
-        sql += "where st_dwithin(the_geom,st_transform(st_setsrid(";
+        sql += "where st_dwithin(geom,st_transform(st_setsrid(";
         sql += "st_makepoint(" + xy.lon + "," + xy.lat + ")";
         sql += ",900913),2270),50) limit 1";
     var config = { 
@@ -103,7 +103,7 @@ The recursive walking function is pretty simple:
     // A parser for our GeoJSON return values.
     var geojson = new OpenLayers.Format.GeoJSON();
     // We want to get all the pipes that start where the last one ended.
-    var sql = "select st_asgeojson(st_transform(the_geom,900913)),pipe_id::integer,node_to,node_fm from medford.storm_drains where node_fm = '" + node_fm + "'";
+    var sql = "select st_asgeojson(st_transform(geom,900913)),pipe_id::integer,node_to,node_fm from medford.storm_drains where node_fm = '" + node_fm + "'";
     // We are working sequentially, so synchronous fetch is best.
     var config = { 
           "method":"GET",
@@ -149,12 +149,12 @@ The SQL to find the next nearest node efficiently would look something like this
   from 
     medford.storm_drains d, 
     medford.storm_drains e 
-  where st_dwithin(d.the_geom, e.the_geom, 5) 
+  where st_dwithin(d.geom, e.geom, 5) 
     and e.node_to = 'D371W28CN0134'
     and e.gid != d.gid 
     and st_distance(
-          st_endpoint(st_geometryn(e.the_geom, 1)),
-          st_startpoint(st_geometryn(d.the_geom, 1))
+          st_endpoint(st_geometryn(e.geom, 1)),
+          st_startpoint(st_geometryn(d.geom, 1))
         ) < 5;
 
 By self-joining the storm drains table to itself, and restricting one side of the join to just the edge we are interested in, we get the result out. Note that we include an **ST_DWithin()** clause as well as an **ST_Distance()** clause. The within distance test gets us a set of candidate geometry very quickly using the index, while the distance clause actually winnows the results down to the exact answer -- geometries with a start-point very close to our end-point.
@@ -173,7 +173,7 @@ A modified spatial query will find all pipes that are close to the end point of 
   from 
     medford.storm_drains d, 
     medford.storm_drains e
-  where st_dwithin(d.the_geom, st_endpoint(st_geometryn(e.the_geom, 1)), 5)
+  where st_dwithin(d.geom, st_endpoint(st_geometryn(e.geom, 1)), 5)
     and e.node_to = 'D371W28AN0113'
     and e.gid != d.gid;
 

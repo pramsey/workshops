@@ -82,13 +82,13 @@ The **01-click-query.jsp** script is a simple :term:`JSTL` script that takes in 
 
   <sql:query var="rs" dataSource="jdbc/medford">
   select 
-    st_geometrytype(the_geom) as geometrytype,
-    st_area(the_geom) as area,  
+    st_geometrytype(geom) as geometrytype,
+    st_area(geom) as area,  
     *
   from ${param.table}
   where
     st_contains(
-      the_geom,
+      geom,
       st_transform(
         st_setsrid(
           st_makepoint(${param.lon},${param.lat}),
@@ -104,7 +104,7 @@ The **01-click-query.jsp** script is a simple :term:`JSTL` script that takes in 
     <c:forEach var="row" items="${rs.rows}">
      <table>
       <c:forEach var="column" items="${row}">
-       <c:if test="${column.key != 'the_geom'}">
+       <c:if test="${column.key != 'geom'}">
         <tr>
          <th><c:out value="${column.key}"/></th>
          <td><c:out value="${column.value}"/></td>
@@ -127,13 +127,13 @@ The interesting part is the SQL query itself, here it is on its own:
 .. code-block:: sql
 
   select 
-    st_geometrytype(the_geom) as geometrytype,
-    st_area(the_geom) as area,  
+    st_geometrytype(geom) as geometrytype,
+    st_area(geom) as area,  
     *
   from ${param.table}
   where
     st_contains(
-      the_geom,
+      geom,
       st_transform(
         st_setsrid(
           st_makepoint(${param.lon},${param.lat}),
@@ -145,7 +145,7 @@ The interesting part is the SQL query itself, here it is on its own:
 3. Then, using **ST_Transform()** we transform the geometry into a new SRID, "2270" -- this is the :term:`SRID` our Medford data is stored in. 
 4. And finally we test all the geometries in the candidate table to see if they contain our point, using the **ST_Contains()** function.
 
-In the :term:`JSTL` code following, the result of the SQL query is just iterated back into an HTML table, skipping the geometry column (named "the_geom"). None of the functions of this script are at all unique to :term:`JSTL` or JSP -- any other scripting language can be used. 
+In the :term:`JSTL` code following, the result of the SQL query is just iterated back into an HTML table, skipping the geometry column (named "geom"). None of the functions of this script are at all unique to :term:`JSTL` or JSP -- any other scripting language can be used. 
 
   **The core logic resides in the SQL query executed by the database.**
 
@@ -166,12 +166,12 @@ For example, here's the same script in `PHP <http://php.net>`_:
   $lat = $_GET["lat"];
 
   $sql = "select 
-            st_geometrytype(the_geom) as geometrytype,
-            st_area(the_geom) as area, *
+            st_geometrytype(geom) as geometrytype,
+            st_area(geom) as area, *
           from $table
           where
             st_contains(
-              the_geom,
+              geom,
               st_transform(
                 st_setsrid(
                   st_makepoint($lon, $lat),
@@ -185,7 +185,7 @@ For example, here's the same script in `PHP <http://php.net>`_:
     print "<table>";
     foreach ( array_keys($row) as $column_name )
     {
-      if ( $column_name <> "the_geom" ) 
+      if ( $column_name <> "geom" ) 
       {
         print "<tr>";
         print "<th>" . $column_name . "</th>";
@@ -259,9 +259,9 @@ So, what does SRID 2270 data look like, anyways? Here's a text representation of
 
 ::
 
-  select ST_AsText(the_geom) 
+  select ST_AsText(geom) 
   from medford.streets 
-  where ST_NPoints(the_geom) < 5 
+  where ST_NPoints(geom) < 5 
   limit 1;
 
   MULTILINESTRING((4213885.14734031 160185.268762533,4213652.62151609 160197.360154544))
@@ -270,9 +270,9 @@ And here is the same feature transformed into SRID 4326 (lon/lat):
 
 ::
 
-  select ST_AsText(ST_Transform(the_geom,4326)) 
+  select ST_AsText(ST_Transform(geom,4326)) 
   from medford.streets 
-  where ST_NPoints(the_geom) < 5 
+  where ST_NPoints(geom) < 5 
   limit 1;
 
   MULTILINESTRING((-123.105691290864 42.0759840216797,-123.106548657776 42.0759973317678))
