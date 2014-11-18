@@ -5,15 +5,17 @@ Installation
 
 We will be using OpenGeo Suite as the basis for this workshop. It includes all the parts we need to be able to demonstrate pushing SQL smarts out to the web.
 
-* PostgreSQL, including 
+* PostgreSQL, relational database, including 
 
-  - PgAdmin III
-  - PgShapeLoader
-  - PostGIS
+  - PgAdmin III,
+  - PgShapeLoader, and
+  - PostGIS.
 
-* GeoServer, including
+* GeoServer, spatial web application server, including
 
-  - OpenLayers
+  - OpenLayers.
+
+* QGIS, spatial desktop browser and editor.
 
 .. note::
 
@@ -21,9 +23,9 @@ We will be using OpenGeo Suite as the basis for this workshop. It includes all t
 
 To get OpenGeo Suite installed, first 
 
-* `Download <http://boundlessgeo.com/solutions/opengeo-suite/download/>`_ a copy (Windows/OSX), then
-* `Install the Suite <http://suite.opengeo.org/4.1/installation/index.html>`_
-
+* `Download Suite <http://boundlessgeo.com/solutions/opengeo-suite/download/>`_  (Windows/OSX), then
+* `Install the Suite <http://suite.opengeo.org/4.1/installation/index.html>`_ (Windows/OSX/Linux).
+* `Download and install QGIS <http://boundlessgeo.com/solutions/solutions-software/qgis/qgis-download/>`_.
 
 Workshop Materials
 ------------------
@@ -44,9 +46,17 @@ Installing the Data
 
 GIS data comes in a large number of formats, and there are tools available for loading data from those formats into spatial databases. The most widely used tools are:
 
+* `ogr2ogr <http://www.gdal.org/ogr2ogr.html>`_ an open source command-line tool that can read from tens of formats. The Suite "commandline tools" component includes the ogr2ogr tool.
 * `Feature Manipulation Engine (FME) <http://www.safe.com/fme>`_ a proprietary tool from Safe Software that can read from hundreds of formats and includes a GUI workbench for configuring translations.
-* `ogr2ogr <http://www.gdal.org/ogr2ogr.html>`_ an open source command-line tool that can read from tens of formats. The FWTools installer included in the workshop software directory contains the ogr2ogr tool.
 
+Rather than use these general purpose tools, we'll use a specific PostGIS tool for importing "`shape files <http://en.wikipedia.org/wiki/Shapefile>`_", PgShapeLoader (aka ``shp2pgsql-gui``).
+
+
+
+
+that can only 
+
+We will 
 Rather than load the data directly from the original files (which are available in the "shapes.zip" file in the workshop bundle) we will load the data by restoring PostgreSQL dump files to our database.
 
 First, start up the "PgAdmin" graphical administration tool for PostgreSQL. You can find it in the PostgreSQL application folder in the Start Menu.
@@ -162,69 +172,7 @@ If you zoom in, though, you will see things begin to make sense. Explore the dat
 
 .. image:: ./img/udig_view_17.png
 
-Installing Tomcat
------------------
 
-The Tomcat install for the workshop is not the default install you can `download <http://tomcat.apache.org/download-60.cgi>`_ from the Tomcat web site. We have taken Tomcat 6 and added in extra software and configuration for the workshop: 
-
-* We have configured a JNDI database connection so that we can easily connect to our "medford" database in PostgreSQL.
-* We have added a copy of GeoServer and configured it to pull layers from our "medford" database.
-* We have added the scripts needed for our workshop examples.
-* We have added a recent copy of OpenLayers.
-
-To use Tomcat you will need a Java run-time installed first. You may already have one installed. You can check by opening up a terminal window (in Windows, choose "Run..." in the start menu, then type in "cmd") and running "java" at the command line. If you have Java installed, you will see some usage instructions. If you don't, you'll see an error message.
-
-.. image:: ./img/tomcat_install_18.png
-
-.. note::
-
-  If you need to install Java, use the JRE included in the workshop software collection, "jre-6u13-windows-i586-p-s". Just double-click to start.
-
-Once you have confirmed you have a working Java, or have installed Java, move on.
-  
-Unzip the "tomcat6-geoserver.zip" file included in the workshop software collection, to a location of your choosing (I like to put it at **C:\\**). Open a terminal window ("Run..." then "cmd") and navigate to the Tomcat directory. 
-
-* Enter the "bin/" subdirectory
-* Run "service.bat install" 
-* Run "net start Tomcat6"
-
-.. image:: ./img/tomcat_install_19.png
-
-You should now have a running instance of Tomcat on your machine.
-
-.. note::
-
-  There are many ways for this process to go wrong. You might not have sufficient privileges to install the service: solution, use an account with those privileges. You might already have software using the network port (8080) that Tomcat uses: solution, stop that software, or reconfigure Tomcat to use a different port. Your firewall might disallow services opening on ports: solution, turn off your firewall, or make an exception for port 8080.
-  
-To test that Tomcat is now up and running, point your web browser at port 8080 on your local machine.
-
-  http://localhost:8080/
-  
-You should see the Tomcat web server welcome page.
-
-.. image:: ./img/tomcat_install_20.png
-
-Uninstalling Tomcat
--------------------
-
-To remove Tomcat from your system, you need to stop the service and then remove it from the registry.
-
-* Open a terminal window
-* Navigate to the Tomcat directory
-* Enter the "bin/" subdirectory
-* Run "net stop Tomcat6"
-* Run "service.bat uninstall"
-
-.. image:: ./img/tomcat_install_21.png
-
-Now it is safe to delete the Tomcat directory from your hard drive.
-
-Uninstalling PostgreSQL / PostGIS
----------------------------------
-
-To remove PostgreSQL from your system, open the "Add or Remove Programs" tool from the "Control Panel" of your system. Choose the "Remove" option for PostGIS, then PostgreSQL.
-
-.. image:: ./img/pgsql_install_22.png
 
 
 

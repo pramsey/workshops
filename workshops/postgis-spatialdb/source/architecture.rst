@@ -33,4 +33,4 @@ The actual tools we will use are all bundled as a part of `OpenGeo Suite`_:
 
 
 
-_OpenGeo Suite: http://boundlessgeo.com/solutions/opengeo-suite/
+.. _OpenGeo Suite: http://boundlessgeo.com/solutions/opengeo-suite/
