@@ -33,7 +33,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = u'Introduction to PostGIS'
-copyright = u'2012, Paul Ramsey, Boundless | Mark Leslie, LISAsoft'
+copyright = u'2012, Paul Ramsey & Mark Leslie'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -79,7 +79,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'boundless_web'
+html_theme = 'foss4g_2015'
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ['../../../../themes']
@@ -98,7 +98,7 @@ html_title = project
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-# html_favicon = 'favicon.ico'
+html_favicon = 'favicon.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -144,7 +144,7 @@ html_copy_source = False
 htmlhelp_basename = 'GeostackIntro'
 
 # Page subheading
-html_context = {'subheading': 'PostGIS extends PostgreSQL with robust spatial database management capabilities. <a href="http://boundlessgeo.com/solutions/solutions-software/postgis/">More info</a>'}
+html_context = {'subheading': 'PostGIS extends PostgreSQL with robust spatial database management capabilities. <a href="http://postgis.net/">More info</a>'}
 
 # Options for LaTeX output
 # ------------------------
